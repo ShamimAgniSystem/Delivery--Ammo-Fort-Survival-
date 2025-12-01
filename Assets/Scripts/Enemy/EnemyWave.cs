@@ -6,18 +6,18 @@ public class EnemyWave : MonoBehaviour
     public static EnemyWave Instance;
 
     [Header("Wave Settings")]
-    public Transform[] spawnPoints;
-    public GameObject enemyPrefab;
-    public int enemiesPerWave = 5;
-    public float waveDelay = 20f;
-    public float timeBetweenSpawns = 1f;
+    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private int enemiesPerWave = 5;
+    [SerializeField] private float waveDelay = 20f;
+    [SerializeField] private float timeBetweenSpawns = 1f;
 
     [Header("Wave Progress")]
-    public int currentWave = 0;
-    public int totalWaves = 5;
+    [SerializeField] int currentWave = 0;
+    [SerializeField] int totalWaves = 5;
 
-    private int aliveEnemies = 0;
-    private bool waveInProgress = false;
+    [SerializeField] private int aliveEnemies = 0;
+    [SerializeField] private bool iswaveInProgress = false;
 
     private void Awake()
     {
@@ -46,7 +46,7 @@ public class EnemyWave : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
-        waveInProgress = true;
+        iswaveInProgress = true;
         int enemiesThisWave = enemiesPerWave + (currentWave * 2);
         
         for (int i = 0; i < enemiesThisWave; i++)
@@ -59,12 +59,23 @@ public class EnemyWave : MonoBehaviour
             }
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
-        
-        waveInProgress = false;
+        iswaveInProgress = false;
     }
-
     public void OnEnemyKilled()
     {
         aliveEnemies--;
     }
+    #region Getters
+    public int GetCurrentAliveEnemies() => aliveEnemies;
+    public int GetCurrentWave() => currentWave;
+    public bool IsAllWaveFinished()
+    {
+        return currentWave == totalWaves ? true : false;
+    }
+    public bool IsWaveAndEnemiesCleared()
+    {
+        return IsAllWaveFinished() && GetCurrentAliveEnemies() == 0 ? true : false;
+    }
+    #endregion
+
 }

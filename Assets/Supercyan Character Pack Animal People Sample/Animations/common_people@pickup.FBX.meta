@@ -258,7 +258,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.1723356
-        functionName: CheckHandCollision
+        functionName: AttackingFort
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
