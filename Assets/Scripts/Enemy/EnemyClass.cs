@@ -12,7 +12,6 @@ public class EnemyClass : CharacterBase
     [SerializeField] private Transform fortCenter;
     private Animator animator;
     private NavMeshAgent navMeshAgent;
-    bool isAttacking = false; //Debugging delete after
     
     private void Awake()
     {
@@ -25,7 +24,6 @@ public class EnemyClass : CharacterBase
         if (navMeshAgent != null)
         {
             navMeshAgent.speed = moveSpeed;
-            //navMeshAgent.stoppingDistance = attackRange - 0.2f;
         }
     }
     private void Start()
@@ -53,13 +51,11 @@ public class EnemyClass : CharacterBase
             transform.LookAt(fortCenter);
             animator.SetBool("isAttack", true);
             navMeshAgent.isStopped = true; 
-            isAttacking = true;
         }
         else
         {
             animator.SetBool("isAttack", false);
             navMeshAgent.isStopped = false;
-            isAttacking = false;
         }
     }
     private void OnDeathCallBack()

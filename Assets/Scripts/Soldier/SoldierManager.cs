@@ -7,7 +7,6 @@ public class SoldierManager : MonoBehaviour
 
     [Header("Soldier Management")]
     [SerializeField] private List<SoldierClass> allSoldiers = new List<SoldierClass>();
-    [SerializeField] private Transform[] soldierSpawnPoints;
     public List<SoldierClass> AllSoldiers => allSoldiers;
     public List<SoldierClass> SoldiersNeedingAmmo 
     {
