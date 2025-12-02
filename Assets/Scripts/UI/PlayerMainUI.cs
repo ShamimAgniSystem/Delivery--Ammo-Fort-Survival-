@@ -1,18 +1,37 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMainUI : MonoBehaviour
 {
-    public TextMeshProUGUI playerAmmoText;
-    public TextMeshProUGUI soldierListText;
+    [SerializeField] private TextMeshProUGUI playerAmmoText;
+    [SerializeField] private TextMeshProUGUI soldierListText;
+    [SerializeField] private TextMeshProUGUI fortHealthText;
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject gameWinPanel;
     
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button mainMenuButton;
+    
+    [Header("References")]
+    [SerializeField] private Fort fort;
+
+    private void Awake()
+    {
+        gameOverPanel.SetActive(false);
+        gameWinPanel.SetActive(false);
+        fort.OnFortDamageTaken += FortDamageTakenCallback;
+        fort.OnFortDestroy += FortDestroyedCallback;
+        
+        restartButton.onClick.AddListener(OnClickReplayButton);
+        mainMenuButton.onClick.AddListener(OnClickMainMenuButton);
+    }
+
     void Update()
     {
-        // Show player's carried ammo
         playerAmmoText.text = "Ammo: " + AmmoSystem.Instance.playerCarry;
-        
-        // Show soldier status list
         soldierListText.text = GetSoldierStatus();
     }
     
@@ -33,5 +52,25 @@ public class PlayerMainUI : MonoBehaviour
         }
         
         return status;
+    }
+
+    private void FortDamageTakenCallback()
+    {
+        fortHealthText.text = "Fort-Health: " + fort.Health;
+    }
+
+    private void FortDestroyedCallback()
+    {
+        gameOverPanel.SetActive(true);
+    }
+
+    public void OnClickMainMenuButton()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void OnClickReplayButton()
+    {
+        SceneManager.LoadScene(1);
     }
 }

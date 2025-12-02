@@ -18,6 +18,10 @@ public class EnemyWave : MonoBehaviour
 
     [SerializeField] private int aliveEnemies = 0;
     [SerializeField] private bool iswaveInProgress = false;
+    
+    // Events And Delegates...
+    public delegate void OnGameCompleted();
+    public OnGameCompleted OnGameOver;
 
     private void Awake()
     {
@@ -76,6 +80,15 @@ public class EnemyWave : MonoBehaviour
     {
         return IsAllWaveFinished() && GetCurrentAliveEnemies() == 0 ? true : false;
     }
+    public void IsGameOver()
+    {
+        if (IsWaveAndEnemiesCleared())
+        {
+            Debug.Log("Game Over");
+            OnGameOver?.Invoke();
+        }
+    }
+    
     #endregion
 
 }
